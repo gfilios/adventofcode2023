@@ -42,12 +42,9 @@ def digits_only(line):
     return int(results[0] + results[-1])
 
 
-def digits_and_numbers_over(line):
+def digits_and_numbers(line):
     left = lookup[digitandnumbers.findall(line)[0]]
     right = get_right(line)
-    right2 = get_right_alt(line)
-    if (right2 != right):
-        print(line, right, right2)
     result = left + right
     return int(result)
 
@@ -66,25 +63,6 @@ def get_right(line):
     return right
 
 
-def get_right_alt(line):
-    right_value = None
-    startsearch = len(line)
-    while right_value is None:
-        right_value = digitandnumbers.search(line, startsearch)
-        startsearch = startsearch - 1
-
-    right = lookup[right_value.group()]
-    return right
-
-
-def digits_and_numbers(line):
-    results = digitandnumbers.findall(line)
-    left = lookup[results[0]]
-    right = lookup[results[-1]]
-    result = left + right
-    return int(result)
-
-
 def calc_sum(file, sumfunction):
     sum = 0
     with open(file) as f:
@@ -96,7 +74,5 @@ def calc_sum(file, sumfunction):
     return sum
 
 
-print("zsgdgdgdgoneight", digits_and_numbers_over("zsgdgdgdgoneight"))
-print(calc_sum('input.txt', digits_only))
-print(calc_sum('input.txt', digits_and_numbers))
-print(calc_sum('input.txt', digits_and_numbers_over))
+print(f"Day 1, Part 1 = {calc_sum('input.txt', digits_only)}")
+print(f"Day 1, Part 2 = {calc_sum('input.txt', digits_and_numbers)}")
