@@ -19,7 +19,7 @@ valid_blue = 14
 valid_green = 13
 
 
-def number_of_balls(set):
+def balls_in_set(set):
     red = 0
     blue = 0
     green = 0
@@ -36,17 +36,17 @@ def number_of_balls(set):
     return red, blue, green
 
 
-def isValid(red, green, blue):
+def are_balls_valid(red, green, blue):
     return (red <= valid_red) and (green <= valid_green) and (blue <= valid_blue)
 
 
-def validate(line):
-    game_id = game_id_regex.match(line).group(1)
-    sets = line[6 + len(game_id):].split(';')
+def validate_game(game):
+    game_id = game_id_regex.match(game).group(1)
+    sets = game[6 + len(game_id):].split(';')
     return_value = int(game_id)
     for set in sets:
-        (red, blue, green) = number_of_balls(set)
-        if not (isValid(red, green, blue)):
+        (red, blue, green) = balls_in_set(set)
+        if not (are_balls_valid(red, green, blue)):
             return_value = 0
     return return_value
 
@@ -59,25 +59,25 @@ def minimum_cubes(line):
     game_id = game_id_regex.match(line).group(1)
     sets = line[6 + len(game_id):].split(';')
     for set in sets:
-        (red, blue, green) = number_of_balls(set)
+        (red, blue, green) = balls_in_set(set)
         min_red = max(min_red, red)
         min_blue = max(min_blue, blue)
         min_green = max(min_green, green)
     return min_red * min_blue * min_green
 
 
-def check_games(file):
+def validate_games(games):
     sum = 0
-    with open(file) as f:
-        line = f.readline().strip('\n')
-        while line:
-            value = validate(line)
+    with open(games) as f:
+        game = f.readline().strip('\n')
+        while game:
+            value = validate_game(game)
             sum = sum + value
-            line = f.readline().strip('\n')
+            game = f.readline().strip('\n')
     return sum
 
 
-def min_cubes(file):
+def min_cubes_needed(file):
     sum = 0
     with open(file) as f:
         line = f.readline().strip('\n')
@@ -88,5 +88,5 @@ def min_cubes(file):
     return sum
 
 
-print(f"Day 2, Part 1 = {check_games('input.txt')}")
-print(f"Day 2, Part 2 = {min_cubes('input.txt')}")
+print(f"Day 2, Part 1 = {validate_games('input.txt')}")
+print(f"Day 2, Part 2 = {min_cubes_needed('input.txt')}")
