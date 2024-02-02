@@ -88,5 +88,5 @@ def min_cubes_needed(file):
     return sum
 
 
-print(f"Day 2, Part 1 = {validate_games('input.txt')}")
+print(f"Day 2, Part 1 = {validate_games('input.txt.txt')}")
 print(f"Day 2, Part 2 = {min_cubes_needed('input.txt')}")
