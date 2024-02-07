@@ -27,7 +27,7 @@ seeds = []
 def read_mappings():
     global mappings
     global seeds
-    almanac = open('input_debug.txt').read().splitlines()
+    #almanac = open('input_debug.txt').read().splitlines()
     almanac = open('input.txt').read().splitlines()
     seeds = [eval(i) for i in (almanac[0].split(":")[1].strip().split(" "))]
     current_mapping = []
@@ -59,21 +59,33 @@ def local_min(a, b):
     return min(a, b)
 
 
-def map_seeds(part=1):
+def map_seeds_part1():
     read_mappings()
     lowest = -1
-    seed_iteration = iter(seeds)
-    for seed in seed_iteration:
+    for seed in seeds:
         next_value = seed
-        if part == 2:
-            next(seed_iteration)
-        print(next_value)
         for section in mappings.keys():
             next_value = map_value_to_section(next_value, section)
         lowest = local_min(lowest, next_value)
     return lowest
 
 
+def map_seeds_part2():
+    read_mappings()
+    lowest = -1
+    seed_iteration = iter(seeds)
+    for seed in seed_iteration:
+        next_value = seed
+        next_range = next(seed_iteration)
+        print(f"Seed {next_value} and Range {next_range}")
+        for seedValue in range(next_value, next_value+next_range):
+
+            mapped_result = seedValue
+            for section in mappings.keys():
+                mapped_result = map_value_to_section(mapped_result, section)
+            lowest = local_min(lowest, mapped_result)
+    return lowest
+
 if __name__ == '__main__':
-    print(f"Part 1: {map_seeds()}")
-    print(f"Part 2: {map_seeds(2)}")
+    print(f"Part 1: {map_seeds_part1()}")
+    print(f"Part 2: {map_seeds_part2()}")
