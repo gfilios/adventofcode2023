@@ -24,10 +24,16 @@ mappings = {
 seeds = []
 
 
+def reset_mapping():
+    for section in mappings.keys():
+        mappings[section] = []
+
+
 def read_mappings():
     global mappings
     global seeds
-    #almanac = open('input_debug.txt').read().splitlines()
+    reset_mapping()
+    almanac = open('input_debug.txt').read().splitlines()
     almanac = open('input.txt').read().splitlines()
     seeds = [eval(i) for i in (almanac[0].split(":")[1].strip().split(" "))]
     current_mapping = []
@@ -70,7 +76,7 @@ def map_seeds_part1():
     return lowest
 
 
-def map_seeds_part2():
+def map_seeds_part2_brute_force():
     read_mappings()
     lowest = -1
     seed_iteration = iter(seeds)
@@ -78,7 +84,7 @@ def map_seeds_part2():
         next_value = seed
         next_range = next(seed_iteration)
         print(f"Seed {next_value} and Range {next_range}")
-        for seedValue in range(next_value, next_value+next_range):
+        for seedValue in range(next_value, next_value + next_range):
 
             mapped_result = seedValue
             for section in mappings.keys():
@@ -86,6 +92,28 @@ def map_seeds_part2():
             lowest = local_min(lowest, mapped_result)
     return lowest
 
+
+def sort_mapping():
+    for section in mappings.keys():
+        mappings[section] = sorted(mappings[section], key=lambda item: item[1])
+
+
+def find_match(entry, mapping_entries):
+    for mapping_entry in mapping_entries:
+        if (entry[0] >= mapping_entry[0]) and (entry[0] < (mapping_entry[0] + mapping_entry[2])):
+            return [mapping_entry[1]+(entry[0]-mapping_entry[0]), mapping_entry[0]+(entry[0]-mapping_entry[0], entry[1]-mapping_entry[1])]
+
+def map_seeds_part2():
+    read_mappings()
+    sort_mapping()
+    for soils in mappings['humidity-to-location']:
+        print(soils)
+        entry = soils
+        for section in reversed(mappings.keys()):
+            if section != 'humidity-to-location':
+                entry = find_match(entry, mappings[section])
+
+
 if __name__ == '__main__':
     print(f"Part 1: {map_seeds_part1()}")
-    print(f"Part 2: {map_seeds_part2()}")
+    print(f"Part 2: {map_seeds_part2_brute_force()}")
