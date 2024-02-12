@@ -33,7 +33,7 @@ def read_mappings():
     global mappings
     global seeds
     reset_mapping()
-    almanac = open('input_debug.txt').read().splitlines()
+    #almanac = open('input_debug.txt').read().splitlines()
     almanac = open('input.txt').read().splitlines()
     seeds = [eval(i) for i in (almanac[0].split(":")[1].strip().split(" "))]
     current_mapping = []
@@ -45,7 +45,7 @@ def read_mappings():
         else:
             if line != "":
                 current_mapping.append([eval(i) for i in (line.strip().split(" "))])
-
+    sort_mapping()
 
 def map_value_to_section(value, section):
     global mappings
@@ -98,20 +98,7 @@ def sort_mapping():
         mappings[section] = sorted(mappings[section], key=lambda item: item[1])
 
 
-def find_match(entry, mapping_entries):
-    for mapping_entry in mapping_entries:
-        if (entry[0] >= mapping_entry[0]) and (entry[0] < (mapping_entry[0] + mapping_entry[2])):
-            return [mapping_entry[1]+(entry[0]-mapping_entry[0]), mapping_entry[0]+(entry[0]-mapping_entry[0], entry[1]-mapping_entry[1])]
 
-def map_seeds_part2():
-    read_mappings()
-    sort_mapping()
-    for soils in mappings['humidity-to-location']:
-        print(soils)
-        entry = soils
-        for section in reversed(mappings.keys()):
-            if section != 'humidity-to-location':
-                entry = find_match(entry, mappings[section])
 
 
 if __name__ == '__main__':
