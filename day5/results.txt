@@ -1,0 +1,27 @@
+/Users/gfilios/PycharmProjects/adventofcode2023/venv/bin/python /Users/gfilios/PycharmProjects/adventofcode2023/day5/day5.py
+Part 1: 910845529
+
+Thread-1: From 1848591090 and Range 462385043
+Thread-2: From 2611025720 and Range 154883670
+Thread-3: From 1508373603 and Range 11536371
+Thread-4: From 3692308424 and Range 16905163
+Thread-5: From 1203540561 and Range 280364121
+Thread-6: From 3755585679 and Range 337861951
+Thread-7: From 93589727 and Range 738327409
+Thread-8: From 3421539474 and Range 257441906
+Thread-9: From 3119409201 and Range 243224070
+Thread-10: From 50985980 and Range 7961058
+
+
+Thread-10: Result 1526666011
+Thread-3: Result 562057898
+Thread-4: Result 3520380446
+Thread-2: Result 653925960
+Thread-9: Result 77435348
+Thread-5: Result 292211340
+Thread-8: Result 791316226
+Thread-6: Result 243583567
+Thread-1: Result 95461669
+Thread-7: Result 368703957
+
+Part 2: 77435348

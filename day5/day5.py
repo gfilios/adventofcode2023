@@ -8,6 +8,8 @@ temperature-to-humidity map:
 humidity-to-location map:
 '''
 import re
+from time import sleep
+from threading import Thread, current_thread
 
 section_regex = re.compile('^(.*) map:')
 
@@ -27,7 +29,9 @@ seeds = []
 def reset_mapping():
     for section in mappings.keys():
         mappings[section] = []
-
+def sort_mapping():
+    for section in mappings.keys():
+        mappings[section] = sorted(mappings[section], key=lambda item: item[1])
 
 def read_mappings():
     global mappings
@@ -77,28 +81,37 @@ def map_seeds_part1():
 
 
 def map_seeds_part2_brute_force():
+    global mappings
+    min_values = []
     read_mappings()
+    threads = []
     lowest = -1
     seed_iteration = iter(seeds)
     for seed in seed_iteration:
         next_value = seed
         next_range = next(seed_iteration)
-        print(f"Seed {next_value} and Range {next_range}")
-        for seedValue in range(next_value, next_value + next_range):
+        print()
+        thread = Thread(target=map_seed_range, args=(next_value, next_range, mappings, min_values ))
+        thread.start()
+        threads.append(thread)
 
-            mapped_result = seedValue
-            for section in mappings.keys():
-                mapped_result = map_value_to_section(mapped_result, section)
-            lowest = local_min(lowest, mapped_result)
-    return lowest
+    for thread in threads:
+        thread.join()
 
-
-def sort_mapping():
-    for section in mappings.keys():
-        mappings[section] = sorted(mappings[section], key=lambda item: item[1])
+    return min(min_values)
 
 
-
+def map_seed_range(seed_start, seed_range, mappings, min_values):
+    lowest = -1
+    thread = current_thread()
+    print(f"{thread.name}: From {seed_start} and Range {seed_range}")
+    for seedValue in range(seed_start, seed_start + seed_range):
+        mapped_result = seedValue
+        for section in mappings.keys():
+            mapped_result = map_value_to_section(mapped_result, section)
+        lowest = local_min(lowest, mapped_result)
+    print(f"{thread.name}: Result {lowest}")
+    min_values.append(lowest)
 
 
 if __name__ == '__main__':
