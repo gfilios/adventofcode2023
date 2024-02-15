@@ -30,50 +30,24 @@ def cmp_card(card1, card2):
 
 
 def first_order(card):
-    if is_five_of_a_kind(card):
+    if is_x_of_a_kind(card, 5):
         return 0
-    elif is_four_of_a_kind(card):
+    elif is_x_of_a_kind(card, 4):
         return 1
     elif is_full_house(card):
         return 2
-    elif is_three_of_a_kind(card):
+    elif is_x_of_a_kind(card, 3):
         return 3
     elif is_two_pair(card):
         return 4
-    elif is_two_of_a_kind(card):
+    elif is_x_of_a_kind(card, 2):
         return 5
     return 6
 
 
-def is_five_of_a_kind(card):
-    card_value = card
-    is_full_hand_value = True
-    first_card = card_value[1]
-    for next_card in card_value[1:]:
-        is_full_hand_value = is_full_hand_value and (next_card == first_card)
-    return is_full_hand_value
-
-
-def is_four_of_a_kind(card):
-    return is_x_of_a_kind(card, 4)
-
-def is_three_of_a_kind(card):
-    return is_x_of_a_kind(card, 3)
-
-
-def is_two_of_a_kind(card):
-    return is_x_of_a_kind(card, 2)
-
-
 def is_x_of_a_kind(card, x):
     card_value = card
-    counter = {}
-    for next_card in card_value:
-        if counter.get(next_card) is None:
-            counter[next_card] = 1
-        else:
-            counter[next_card] += 1
-
+    counter = count_cards(card_value)
     for values in counter.values():
         if (values == x):
             return True
@@ -83,12 +57,8 @@ def is_x_of_a_kind(card, x):
 
 def is_full_house(card):
     card_value = card
-    counter = {}
-    for next_card in card_value:
-        if counter.get(next_card) is None:
-            counter[next_card] = 1
-        else:
-            counter[next_card] += 1
+    counter = count_cards(card_value)
+
 
     is_full_house_condition = False
     if len(counter.keys()) == 2:
@@ -99,12 +69,7 @@ def is_full_house(card):
 
 def is_two_pair(card):
     card_value = card
-    counter = {}
-    for next_card in card_value:
-        if counter.get(next_card) is None:
-            counter[next_card] = 1
-        else:
-            counter[next_card] += 1
+    counter = count_cards(card_value)
 
     is_two_pair_condition = False
     if len(counter.keys()) == 3:
@@ -112,6 +77,17 @@ def is_two_pair(card):
         is_two_pair_condition = (cards[0] == 2 and cards[1] == 2) or (cards[0] == 2 and cards[2] == 2) or (cards[1] == 2 and cards[2] == 2)
 
     return is_two_pair_condition
+
+
+def count_cards(card_value):
+    counter = {}
+    for next_card in card_value:
+        if counter.get(next_card) is None:
+            counter[next_card] = 1
+        else:
+            counter[next_card] += 1
+    return counter
+
 
 def test_card():
     card = ["11111", 88]
