@@ -12,7 +12,6 @@ def read_cards_part1(filename: str, with_joker=False):
             values = line.split(" ")
             bid = int(values[1])
             first_sort = first_order(values[0], with_joker)
-            #second_sort = second_order(values[0], with_joker)
             hex = card_to_hex(values[0], with_joker)
             second_sort = int(hex, 16)
             card_codes = [values[0], bid, first_sort, second_sort, hex]
@@ -145,7 +144,7 @@ def evaluate_deck(deck):
     sorted_deck = sorted(deck, key=cmp_to_key(cmp_card))
     result = 0
     for rank, card in enumerate(sorted_deck):
-        print("('{}', '{}')".format(card[0], card[1]));
+        #print("('{}', '{}')".format(card[0], card[1]));
         result = result + (rank + 1) * card[1]
     return result
 
@@ -155,8 +154,8 @@ if __name__ == '__main__':
     puzzle_file = "input.txt"
     file = demo_file
     file = puzzle_file
-    #part1_deck = read_cards_part1(file)
-    #print(f"Day 7, Part 1: {evaluate_deck(part1_deck)}")
+    part1_deck = read_cards_part1(file)
+    print(f"Day 7, Part 1: {evaluate_deck(part1_deck)}")
 
     part2_deck = read_cards_part1(file, with_joker=True)
     print(f"Day 7, Part 2: {evaluate_deck(part2_deck)}")
